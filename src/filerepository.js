@@ -127,6 +127,13 @@ export default class FileRepository extends Plugin {
 		} );
 	}
 
+	destroy() {
+		super.destroy();
+
+		this._destroyObservable();
+		// todo
+	}
+
 	/**
 	 * Returns the loader associated with specified file or promise.
 	 *

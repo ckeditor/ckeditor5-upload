@@ -131,7 +131,6 @@ export default class FileRepository extends Plugin {
 		super.destroy();
 
 		this._destroyObservable();
-		// todo
 	}
 
 	/**

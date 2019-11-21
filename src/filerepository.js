@@ -217,6 +217,8 @@ export default class FileRepository extends Plugin {
 
 			this.uploadTotal = aggregatedTotal;
 		} );
+		
+		this.fire( 'loaderCreated', loader );
 
 		return loader;
 	}

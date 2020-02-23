@@ -1,5 +1,5 @@
 /**
- * @license Copyright (c) 2003-2019, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
@@ -442,11 +442,6 @@ class FileLoader {
 		return this.file
 			.then( file => this._reader.read( file ) )
 			.then( data => {
-				// Edge case: reader was aborted after file was read - double check for proper status.
-				if ( this.status !== 'reading' ) {
-					throw this.status;
-				}
-
 				this.status = 'idle';
 
 				return data;

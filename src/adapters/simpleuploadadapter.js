@@ -176,6 +176,10 @@ class Adapter {
 				return reject( response && response.error && response.error.message ? response.error.message : genericErrorText );
 			}
 
+			if ( this.options.transformResponse ) {
+				return resolve(this.options.transformResponse(response));
+			}
+
 			resolve( response.url ? { default: response.url } : response.urls );
 		} );
 
@@ -210,6 +214,12 @@ class Adapter {
 
 		data.append( 'upload', file );
 
+		if ( this.options.params ) {
+			Object.keys(this.options.params).forEach((key) => {
+				data.append(key, this.options.params[key]);
+			});
+		}
+
 		// Send the request.
 		this.xhr.send( data );
 	}
@@ -226,6 +236,10 @@ class Adapter {
  *
  *					// Headers sent along with the XMLHttpRequest to the upload server.
  *					headers: {
+ *						...
+ *					},
+ *					// Parameters sent as form data to the upload server.
+ *					params: {
  *						...
  *					}
  *				}
@@ -281,4 +295,46 @@ class Adapter {
  * of the feature guide.
  *
  * @member {Object.<String, String>} module:upload/adapters/simpleuploadadapter~SimpleUploadConfig#headers
+ */
+
+/**
+ * An object that defines additional form data sent with
+ * the request to the server during the upload.
+ *
+ *		ClassicEditor
+ *			.create( editorElement, {
+ *				simpleUpload: {
+ *					params: {
+ *						name: 'File name.png'
+ *					}
+ *				}
+ *			} );
+ *			.then( ... )
+ *			.catch( ... );
+ *
+ * Learn more about the server application requirements in the
+ * {@glink features/image-upload/simple-upload-adapter#server-side-configuration "Server-side configuration"} section
+ * of the feature guide.
+ *
+ * @member {Object.<String, String>} module:upload/adapters/simpleuploadadapter~SimpleUploadConfig#params
+ */
+
+/**
+ * A function that transforms the server response to match
+ * SimpleUpload response object format.
+ *
+ *		ClassicEditor
+ *			.create( editorElement, {
+ *				simpleUpload: {
+ *					transformResponse: (res) => ({ default: res.url })
+ *				}
+ *			} );
+ *			.then( ... )
+ *			.catch( ... );
+ *
+ * Learn more about the server application requirements in the
+ * {@glink features/image-upload/simple-upload-adapter#server-side-configuration "Server-side configuration"} section
+ * of the feature guide.
+ *
+ * @member {Function} module:upload/adapters/simpleuploadadapter~SimpleUploadConfig#params
  */
